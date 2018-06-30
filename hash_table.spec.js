@@ -3,13 +3,63 @@ import hashTable from './hash_table';
 describe('Hash Table', () => {
     let myTable;
 
-    test('logs get correctly', () => {
+    test('puts when key type is string', () => {
         myTable = hashTable();
-        expect(myTable.put(1,1)).toEqual('you tried to push!!!');
+        expect(myTable.put('foo',1)).toEqual([['foo', 1, { 'multipleKeys': false }]]);
     })
 
-    test('logs put correctly', () => {
+    test('puts when key type is number', () => {
         myTable = hashTable();
-        expect(myTable.get(1)).toEqual('you tried to get!!!');
+        expect(myTable.put(1, 1)).toEqual([['1',1, { 'multipleKeys': false }]]);
+    })
+
+    test('puts when key type is array', () => {
+        myTable = hashTable();
+        expect(myTable.put([1,2], 1)).toEqual([['[1,2]',1, { 'multipleKeys': false }]]);
+    })
+
+    test('puts when key type is object', () => {
+        myTable = hashTable();
+        expect(myTable.put({ '1' : 2 }, 1)).toEqual([["{\"1\":2}", 1, { 'multipleKeys': false }]]);
+    })
+
+    test('successive puts are handled correctly when key is first assigned', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        expect(myTable.put('bar', 2)).toEqual([['foo', 1, { 'multipleKeys': false }], ['bar', 2, { 'multipleKeys': false }]]);
+    })
+
+    test('successive puts are handled correctly when key is reAssigned', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        expect(myTable.put('foo', 2)).toEqual([['foo', [1, 2], { 'multipleKeys': true }]]);
+        expect(myTable.put('foo', 3)).toEqual([['foo', [1, 2, 3], { 'multipleKeys': true }]]);
+    })
+
+    test('get works correctly if key is defined once', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        expect(myTable.get('foo')).toEqual(1);
+    })
+
+    test('get works correctly if key is not defined', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        expect(myTable.get('bar')).toEqual('That key doesn\'t have a value assigned to it yet.  You may add one using the put method if you like');
+    })
+
+    test('get works correctly if key is duplicated and index is provided', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        myTable.put('foo', 'hello');
+        expect(myTable.get('foo', 0)).toEqual(1);
+        expect(myTable.get('foo', 1)).toEqual('hello');
+    })
+
+    test('get works correctly if key is duplicated and index is not provided', () => {
+        myTable = hashTable();
+        myTable.put('foo', 1);
+        myTable.put('foo', 'hello');
+        expect(myTable.get('foo')).toEqual('That key has many values tied to it, please give an array index to get the desired value from the following array: [1,"hello"]');
     })
 })
