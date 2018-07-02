@@ -55,6 +55,6 @@ describe('Hash Table', () => {
         myTable = hashTable();
         myTable.put('foo', 1);
         myTable.put('foo', 'hello');
-        expect(myTable.get('foo')).toEqual('That key has many values tied to it, please give an array index to get the desired value from the following array: [1,"hello"]');
+        expect(myTable.get('foo')).toEqual('The hash of that key has many values tied to it, please give an array index to get the desired value from the following array of possibly intended values as an additional argument to your get method: [1,"hello"]');
     })
 })

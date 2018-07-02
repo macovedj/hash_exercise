@@ -7,7 +7,7 @@ const hashTable = () => {
     let multipleKeys;
     let hash;
     const notAssigned = 'That key doesn\'t have a value assigned to it yet.  You may add one using the put method if you like';
-    const duplicateKeyMessage = 'That key has many values tied to it, please give an array index to get the desired value from the following array: ';
+    const duplicateHashMessage = 'The hash of that key has many values tied to it, please give an array index to get the desired value from the following array of possibly intended values as an additional argument to your get method: ';
     const hasher = {
         "0": 0,
         "1": 1,
@@ -115,7 +115,7 @@ const hashTable = () => {
                 } else if (triple[0] === hash && index !== -1 && triple[2].multipleKeys === true) {
                     return triple[1][index]
                 } else if (triple[0] === hash && index === -1 && triple[2].multipleKeys === true) {
-                    return duplicateKeyMessage + JSON.stringify(triple[1])
+                    return duplicateHashMessage + JSON.stringify(triple[1])
                 }
             }
         }
