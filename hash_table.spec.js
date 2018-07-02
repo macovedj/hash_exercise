@@ -3,37 +3,32 @@ import hashTable from './hash_table';
 describe('Hash Table', () => {
     let myTable;
 
+    test('hashFunction hashes as expected with expected characters', () => {
+        myTable = hashTable();
+        expect(myTable.hashFunction('foo')).toEqual(414949)
+    })
+
+    test('hashFunction hashes as expected with unexpected characters', () => {
+        myTable = hashTable();
+        expect(myTable.hashFunction('foo.')).toEqual(414949111)
+    })
+
     test('puts when key type is string', () => {
         myTable = hashTable();
-        expect(myTable.put('foo',1)).toEqual([['foo', 1, { 'multipleKeys': false }]]);
-    })
-
-    test('puts when key type is number', () => {
-        myTable = hashTable();
-        expect(myTable.put(1, 1)).toEqual([['1',1, { 'multipleKeys': false }]]);
-    })
-
-    test('puts when key type is array', () => {
-        myTable = hashTable();
-        expect(myTable.put([1,2], 1)).toEqual([['[1,2]',1, { 'multipleKeys': false }]]);
-    })
-
-    test('puts when key type is object', () => {
-        myTable = hashTable();
-        expect(myTable.put({ '1' : 2 }, 1)).toEqual([["{\"1\":2}", 1, { 'multipleKeys': false }]]);
+        expect(myTable.put("foo", 1)).toEqual([414949, 1, { 'multipleKeys': false }]);
     })
 
     test('successive puts are handled correctly when key is first assigned', () => {
         myTable = hashTable();
         myTable.put('foo', 1);
-        expect(myTable.put('bar', 2)).toEqual([['foo', 1, { 'multipleKeys': false }], ['bar', 2, { 'multipleKeys': false }]]);
+        expect(myTable.put('bar', 2)).toEqual([373652, 2, { 'multipleKeys': false }]);
     })
 
     test('successive puts are handled correctly when key is reAssigned', () => {
         myTable = hashTable();
         myTable.put('foo', 1);
-        expect(myTable.put('foo', 2)).toEqual([['foo', [1, 2], { 'multipleKeys': true }]]);
-        expect(myTable.put('foo', 3)).toEqual([['foo', [1, 2, 3], { 'multipleKeys': true }]]);
+        expect(myTable.put('foo', 2)).toEqual([414949, [1, 2], { 'multipleKeys': true }]);
+        expect(myTable.put('foo', 3)).toEqual([414949, [1, 2, 3], { 'multipleKeys': true }]);
     })
 
     test('get works correctly if key is defined once', () => {
