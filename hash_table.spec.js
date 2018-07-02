@@ -31,6 +31,12 @@ describe('Hash Table', () => {
         expect(myTable.put('foo', 3)).toEqual([414949, [1, 2, 3], { 'multipleKeys': true }]);
     })
 
+    test('successive puts are handled correctly when hash is reAssigned', () => {
+        myTable = hashTable();
+        myTable.put('12', 1);
+        expect(myTable.put('C', 2)).toEqual([12, [1, 2], { 'multipleKeys': true }]);
+    })
+
     test('get works correctly if key is defined once', () => {
         myTable = hashTable();
         myTable.put('foo', 1);
