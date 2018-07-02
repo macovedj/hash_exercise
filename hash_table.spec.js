@@ -57,10 +57,25 @@ describe('Hash Table', () => {
         expect(myTable.get('foo', 1)).toEqual('hello');
     })
 
+    test('get works correctly if hash is duplicated and index is provided', () => {
+        myTable = hashTable();
+        myTable.put('12', 1);
+        myTable.put('C', 'hello');
+        expect(myTable.get('12', 0)).toEqual(1);
+        expect(myTable.get('C', 1)).toEqual('hello');
+    })
+
     test('get works correctly if key is duplicated and index is not provided', () => {
         myTable = hashTable();
         myTable.put('foo', 1);
         myTable.put('foo', 'hello');
         expect(myTable.get('foo')).toEqual('The hash of that key has many values tied to it, please give an array index to get the desired value from the following array of possibly intended values as an additional argument to your get method: [1,"hello"]');
+    })
+
+    test('get works correctly if key is duplicated and index is not provided', () => {
+        myTable = hashTable();
+        myTable.put('12', 1);
+        myTable.put('C', 'hello');
+        expect(myTable.get('C')).toEqual('The hash of that key has many values tied to it, please give an array index to get the desired value from the following array of possibly intended values as an additional argument to your get method: [1,"hello"]');
     })
 })
